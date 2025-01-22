@@ -1,0 +1,111 @@
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #242424;
+    font-family: monospace;
+    color: #abff2e;
+}
+
+h1 {
+    margin: 0 auto;
+}
+
+h3 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+header {
+    display: flex;
+    margin: 20px 0;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.search-container {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-container img {
+    height: 24px;
+    position: relative;
+    top: 0px;
+    right: 56px;
+    padding: 15px;
+}
+
+input {
+    color: #fff;
+    border: none;
+    background-color: #3d3d3d;
+    border-radius: 9999px;
+    height: 36px;
+    font-size: 16px;
+    width: 400px;
+    padding: 10px 30px;
+}
+
+input:focus {
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+#search-button {
+    border: none;
+    background-color: #3d3d3d;
+    color: #adff2f;
+    border-radius: 9999px;
+    font-size: 16px;
+    padding: 18px 30px;
+}
+
+.week-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.day-card {
+    box-sizing: border-box;
+    background-color: #3d3d3d;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-content: flex-start;
+    text-align: center;
+    border: 1px solid #adff2f;
+    width: 200px;
+}
+
+.forecast {
+    font-size: 64px;
+}
+
+.date {
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.temp, .humid {
+    margin-bottom: 10px;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    margin: 20px 20px;
+}
