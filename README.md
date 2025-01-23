@@ -3,7 +3,7 @@ I wrote a weather forecast web page that allows the user to input their location
 
 My purpose for writing this software was to learn the JavaScript language and how API's work.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/KqJ2JnGxpZI)
 
 # Development Environment
 

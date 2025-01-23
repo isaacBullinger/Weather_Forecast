@@ -4,7 +4,7 @@ const forecastURL = "https://api.open-meteo.com/v1/forecast";
 
 // Initialize variables
 let user_location;
-let cardContents = []
+let cardContents = [];
 
 // Map weather codes to weather emojis
 const pictures = {

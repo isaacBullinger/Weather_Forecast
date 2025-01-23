@@ -66,12 +66,11 @@ input:focus {
     box-shadow: none;
     outline: none;
     color: #fff;
-    background-color: #3d3d3d !important;
+    background-color: #3d3d3d;
 }
 
-input:not(:placeholder-shown) {
-    color: #fff;
-    background-color: #3d3d3d !important;
+input:-webkit-autofill {
+    background-color: #3d3d3d
 }
 
 #search-button {
