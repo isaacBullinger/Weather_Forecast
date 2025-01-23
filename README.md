@@ -19,6 +19,7 @@ I used JavaScript, HTML, CSS, and the day.js library.
 
 # Future Work
 
-I would like to make locations autofill.
-I would also like to add more weather information.
-I would like to add a weather graph showing the highs and lows.
+Adding animations.
+Making locations autofill.
+Add more weather information.
+Add a weather graph showing the highs and lows.
