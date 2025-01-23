@@ -6,22 +6,32 @@ let user_location;
 let cardContents = []
 
 const pictures = {
-    0: '&#9728',
-    1: '&#127780',
-    2: '&#127781',
-    3: '&#127781',
-    51: '&#127782',
-    53: '&#127782',
-    55: '&#127783',
-    71: '&#127784',
-    73: '&#127784',
-    75: '&#127784',
-    80: '&#127783',
-    81: '&#127783',
-    82: '&#127783',
-    85: '&#127784',
-    86: '&#127784',
-    95: '&#127785'
+    0: '&#9728',    // Clear
+    1: '&#127780',  // Mainly clear
+    2: '&#127781',  // Partly cloudy
+    3: '&#127781',  // Overcast
+    45: '&#127787', // Fog
+    48: '&#127787', // Depositing rime fog
+    51: '&#127782', // Light drizzle
+    53: '&#127782', // Moderate drizzle
+    55: '&#127783', // Dense drizzle
+    56: '&#127783', // Freezing light drizzle
+    57: '&#127783', // Freezing dense drizzle
+    61: '&#127783', // Light rain
+    63: '&#127783', // Moderate rain
+    65: '&#127783', // Heavy rain
+    66: '&#127783', // Freezing light rain
+    67: '&#127783', // Freezing heavy rain
+    71: '&#127784', // Slight snow fall
+    73: '&#127784', // Moderate snow fall
+    75: '&#127784', // Heavy snow fall
+    77: '&#127784', // Snow grains
+    80: '&#127783', // Slight rain showers
+    81: '&#127783', // Moderate rain showers
+    82: '&#127783', // Violent rain showers
+    85: '&#127784', // Slight snow showers
+    86: '&#127784', // Heavy snow showers
+    95: '&#127785'  // Thunderstorm
 }
 
 document.getElementById('search').addEventListener('keydown', function(event) {
@@ -92,7 +102,9 @@ async function displayWeather() {
         const weather_data = await fetchWeatherForLocation(user_location);
         const daily_data = weather_data;
         
-        cardContents = []
+        // console.log(daily_data);
+
+        cardContents = [];
 
         for (i = 0; i < daily_data.time.length; i++) {
             const date = dayjs(daily_data.time[i]).format('MMM D');
@@ -105,7 +117,7 @@ async function displayWeather() {
                 code: daily_data.weathercode[i],
                 date: date
                 }
-            )
+            );
         }
 
         week = document.querySelector('.week-cards');
