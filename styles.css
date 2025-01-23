@@ -1,11 +1,10 @@
-body {
-    height: 100%;
+html, body {
     margin: 0;
     padding: 0;
     background-color: #242424;
     font-family: monospace;
     color: #abff2e;
-    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 h1 {
@@ -25,9 +24,14 @@ header {
     margin: 20px 0;
 }
 
-main {
+.page-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    min-height: 90vh;
+}
+
+main {
+    justify-content: flex-start;
     flex-direction: column;
     flex: 1;
 }
@@ -114,11 +118,7 @@ input:not(:placeholder-shown) {
 }
 
 footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
     display: flex;
     justify-content: center;
-    margin: 20px 20px;
+    padding: 20px;
 }
