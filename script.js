@@ -1,10 +1,12 @@
+// Set URLs for API calls
 const locationURL = "https://nominatim.openstreetmap.org/search";
 const forecastURL = "https://api.open-meteo.com/v1/forecast";
 
+// Initialize variables
 let user_location;
-
 let cardContents = []
 
+// Map weather codes to weather emojis
 const pictures = {
     0: '&#9728',    // Clear
     1: '&#127780',  // Mainly clear
@@ -34,6 +36,7 @@ const pictures = {
     95: '&#127785'  // Thunderstorm
 }
 
+// Display the weather cards when the enter key is pressed
 document.getElementById('search').addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         event.preventDefault();
@@ -41,11 +44,13 @@ document.getElementById('search').addEventListener('keydown', function(event) {
     }
 })
 
+// Display the weather cards when the search button is clicked
 document.getElementById('search-button').addEventListener('click', function(event) {
     event.preventDefault();
     displayWeather()
 })
 
+// Determines the latitude and longitude from input location
 async function getCoordinates(location) {
     const params = new URLSearchParams({
         q: location,
@@ -55,7 +60,7 @@ async function getCoordinates(location) {
 
     const response = await fetch(`${locationURL}?${params}`);
     if (!response.ok) {
-        throw new Error(`Geocoding error: ${response.status}`);
+        throw new Error(`Location error: ${response.status}`);
     }
 
     const data = await response.json();
@@ -69,6 +74,7 @@ async function getCoordinates(location) {
     };
 }
 
+// Gets 7 days of weather data using the latitude and longitude
 async function getWeather(latitude, longitude) {
     const params = new URLSearchParams({
         latitude: latitude,
@@ -84,6 +90,7 @@ async function getWeather(latitude, longitude) {
     return await response.json();
 }
 
+// Combines the above 2 functions to get weather based on location.
 async function fetchWeatherForLocation(location) {
     try {
         const { latitude, longitude } = await getCoordinates(location);
@@ -95,6 +102,7 @@ async function fetchWeatherForLocation(location) {
     }
 }
 
+// Formats and displays weather data on 7 cards
 async function displayWeather() {
     const user_location = document.getElementById('search').value;
 
@@ -134,10 +142,9 @@ async function displayWeather() {
                     <p class="precip">Precipitation: ${cardContent.precipitation}%</p>
                 </div>
             `;
-        })
+        });
 
     } catch (error) {
         console.error("Error fetching weather data:", error)
     }
-
 }
