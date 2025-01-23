@@ -1,61 +1,39 @@
 const locationURL = "https://nominatim.openstreetmap.org/search";
 const forecastURL = "https://api.open-meteo.com/v1/forecast";
 
-cardContents = [
-    {
-        date: "1/18",
-        forecast: "&#127781;",
-        temperature: 50,
-        humidity: 30
-    },
-    {
-        date: "1/19",
-        forecast: "&#127777;",
-        temperature: 52,
-        humidity: 35
-    },
-    {
-        date: "1/20",
-        forecast: "&#127780;",
-        temperature: 48,
-        humidity: 40
-    },
-    {
-        date: "1/21",
-        forecast: "&#127782;",
-        temperature: 46,
-        humidity: 45
-    },
-    {
-        date: "1/22",
-        forecast: "&#127774;",
-        temperature: 55,
-        humidity: 25
-    },
-    {
-        date: "1/23",
-        forecast: "&#127775;",
-        temperature: 53,
-        humidity: 33
-    },
-    {
-        date: "1/24",
-        forecast: "&#127776;",
-        temperature: 49,
-        humidity: 38
-    }
-]
+let user_location;
+
+let cardContents = []
+
+const pictures = {
+    0: '&#9728',
+    1: '&#127780',
+    2: '&#127781',
+    3: '&#127781',
+    51: '&#127782',
+    53: '&#127782',
+    55: '&#127783',
+    71: '&#127784',
+    73: '&#127784',
+    75: '&#127784',
+    80: '&#127783',
+    81: '&#127783',
+    82: '&#127783',
+    85: '&#127784',
+    86: '&#127784',
+    95: '&#127785'
+}
 
 document.getElementById('search').addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
-        location = event.target.value;
-        fetchWeatherForLocation(location);
+        event.preventDefault();
+        displayWeather()
     }
 })
 
-document.getElementById('search-button').addEventListener('click', () => {
-    location = document.getElementById('search').value;
-    fetchWeatherForLocation(location);
+document.getElementById('search-button').addEventListener('click', function(event) {
+    event.preventDefault();
+    displayWeather()
 })
 
 async function getCoordinates(location) {
@@ -81,14 +59,13 @@ async function getCoordinates(location) {
     };
 }
 
-// Function to fetch weather data based on coordinates
 async function getWeather(latitude, longitude) {
     const params = new URLSearchParams({
         latitude: latitude,
         longitude: longitude,
-        current_weather: "true",
+        daily: "temperature_2m_max,temperature_2m_min,precipitation_probability_mean,weathercode"
     });
-
+    
     const response = await fetch(`${forecastURL}?${params}`);
     if (!response.ok) {
         throw new Error(`Weather API error: ${response.status}`);
@@ -97,29 +74,58 @@ async function getWeather(latitude, longitude) {
     return await response.json();
 }
 
-// Main function to get weather for user input
 async function fetchWeatherForLocation(location) {
     try {
         const { latitude, longitude } = await getCoordinates(location);
         const weatherData = await getWeather(latitude, longitude);
 
-        console.log(`Weather for ${location}:`, weatherData.current_weather);
+        return weatherData.daily;
     } catch (error) {
         console.error(error.message);
     }
 }
 
-week = document.querySelector('.week-cards');
+async function displayWeather() {
+    const user_location = document.getElementById('search').value;
 
-week.innerHTML = '';
+    try {
+        const weather_data = await fetchWeatherForLocation(user_location);
+        const daily_data = weather_data;
+        
+        cardContents = []
 
-cardContents.forEach(cardContent => {
-    week.innerHTML += `
-        <div class="day-card">
-            <h3 class="date">${cardContent.date}</h3>
-            <p class="forecast">${cardContent.forecast}</p>
-            <p class="temp">&#127777 ${cardContent.temperature}&#176; C</p>
-            <p class="humid">H: ${cardContent.humidity}%</p>
-        </div>
-    `;
-})
+        for (i = 0; i < daily_data.time.length; i++) {
+            const date = dayjs(daily_data.time[i]).format('MMM D');
+
+            cardContents.push(
+                {
+                precipitation: daily_data.precipitation_probability_mean[i],
+                max_temp: daily_data.temperature_2m_max[i],
+                min_temp: daily_data.temperature_2m_min[i],
+                code: daily_data.weathercode[i],
+                date: date
+                }
+            )
+        }
+
+        week = document.querySelector('.week-cards');
+
+        week.innerHTML = '';
+
+        cardContents.forEach(cardContent => {
+            week.innerHTML += `
+                <div class="day-card">
+                    <h3 class="date">${cardContent.date}</h3>
+                    <p class="forecast">${pictures[cardContent.code]}</p>
+                    <p class="temp">&#127777 High: ${cardContent.max_temp}&#176; F</p>
+                    <p class="temp">&#127777 Low: ${cardContent.min_temp}&#176; F</p>
+                    <p class="precip">Precipitation: ${cardContent.precipitation}%</p>
+                </div>
+            `;
+        })
+
+    } catch (error) {
+        console.error("Error fetching weather data:", error)
+    }
+
+}
